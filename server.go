@@ -23,7 +23,7 @@ func main() {
 	apiRouter.HandleFunc("/health", patch).Methods(http.MethodPatch)
 
 	s := &http.Server{
-		Addr: ":"+port,
+		Addr:    ":" + port,
 		Handler: r,
 	}
 
