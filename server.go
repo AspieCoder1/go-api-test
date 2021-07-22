@@ -20,7 +20,13 @@ func main() {
 	apiRouter.HandleFunc("/", post).Methods(http.MethodPost)
 	apiRouter.HandleFunc("/", delete).Methods(http.MethodDelete)
 	apiRouter.HandleFunc("/", patch).Methods(http.MethodPatch)
+	apiRouter.HandleFunc("/health", patch).Methods(http.MethodPatch)
 
-	log.Fatalln(http.ListenAndServe(":"+port, r))
+	s := &http.Server{
+		Addr: ":"+port,
+		Handler: r,
+	}
+
+	log.Fatalln(s.ListenAndServe())
 
 }

@@ -93,3 +93,25 @@ func TestPatchWorks(t *testing.T) {
 		t.Errorf("Invalid body: got %v want %v", rr.Body.String(), expected)
 	}
 }
+
+func TestHealthCheck(t *testing.T) {
+	req, err := http.NewRequest("GET", "/health", nil)
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(health)
+	handler.ServeHTTP(rr, req)
+
+	if rr.Code != http.StatusOK {
+		t.Errorf("Invalid status code: got %v want %v", rr.Code, http.StatusOK)
+	}
+
+	expected := `{"healthy": true}`
+
+	if rr.Body.String() != expected {
+		t.Errorf("Invalid body: got %v want %v", rr.Body.String(), expected)
+	}
+}
